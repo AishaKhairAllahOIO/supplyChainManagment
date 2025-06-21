@@ -16,7 +16,6 @@ public class ProductWarehouse
         {
             return new ProductNode(product);
         }
-
         if(product.getProductId()<node.product.getProductId())
         {
             node.left=insert(node.left,product);
@@ -41,12 +40,12 @@ public class ProductWarehouse
         {
             return rotateLeft(node);
         }
-        if (balance>1&&product.getProductId()>node.left.product.getProductId())
+        if(balance>1&&product.getProductId()>node.left.product.getProductId())
         {
             node.left=rotateLeft(node.left);
             return rotateRight(node);
         }
-        if (balance<-1&&product.getProductId()<node.right.product.getProductId())
+        if(balance<-1&&product.getProductId()<node.right.product.getProductId())
         {
             node.right=rotateRight(node.right);
             return rotateLeft(node);
@@ -96,4 +95,136 @@ public class ProductWarehouse
         return pivotNode;
     }
 
+    public ProductInformation searchProduct(int productId)
+    {
+        ProductNode node=search(root,productId);
+        if(node==null)
+        {
+            return null;
+        }
+        return node.product;
+    }
+
+    private ProductNode search(ProductNode node,int productId)
+    {
+        if(node==null)
+        {
+            return null;
+        }
+
+        if(productId==node.product.getProductId())
+        {
+            return node;
+        }
+        else if(productId < node.product.getProductId())
+        {
+            return search(node.left, productId);
+        }
+        else
+        {
+            return search(node.right, productId);
+        }
+    }
+
+    public boolean updateProductPrice(int productId,double newPrice)
+    {
+        ProductNode node=search(root,productId);
+        if(node==null)
+        {
+            return false;
+        }
+        node.product.setProductPrice(newPrice);
+        return true;
+    }
+
+    public boolean updateProductQuantity(int productId,int newQuantity)
+    {
+        ProductNode node=search(root,productId);
+        if(node==null)
+        {
+            return false;
+        }
+        node.product.setProductQuantity(newQuantity);
+        return true;
+    }
+
+    public boolean deleteProduct(int productId)
+    {
+        if(search(root,productId)==null)
+        {
+            return false;
+        }
+        root=delete(root,productId);
+        return true;
+    }
+
+    private ProductNode delete(ProductNode node,int productId)
+    {
+        if(node==null)
+            return null;
+        if(productId<node.product.getProductId())
+        {
+            node.left=delete(node.left,productId);
+        }
+        else if(productId>node.product.getProductId())
+        {
+            node.right=delete(node.right,productId);
+        }
+        else
+        {
+            if(node.left==null&&node.right==null)
+            {
+                return null;
+            }
+            else if(node.left==null)
+            {
+                return node.right;
+            }
+            else if(node.right==null)
+            {
+                return node.left;
+            }
+            else
+            {
+                ProductNode successor=getMinValueNode(node.right);
+
+                node.product=successor.product;
+                node.right=delete(node.right,successor.product.getProductId());
+            }
+        }
+
+        node.height=1+Math.max(getHeight(node.left),getHeight(node.right));
+
+        int balance=getBalance(node);
+
+        if(balance>1&&getBalance(node.left)>=0)
+        {
+            return rotateRight(node);
+        }
+        if(balance>1&&getBalance(node.left)<0)
+        {
+            node.left=rotateLeft(node.left);
+            return rotateRight(node);
+        }
+        if(balance<-1&&getBalance(node.right)<=0)
+        {
+            return rotateLeft(node);
+        }
+        if(balance<-1&&getBalance(node.right)>0)
+        {
+            node.right=rotateRight(node.right);
+            return rotateLeft(node);
+        }
+        return node;
+    }
+
+    private ProductNode getMinValueNode(ProductNode node)
+    {
+        ProductNode current=node;
+        while(current.left!=null)
+        {
+            current=current.left;
+        }
+        return current;
+    }
 }
