@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class ProductWarehouse
 {
     private ProductNode root;
@@ -230,6 +232,53 @@ public class ProductWarehouse
     public ProductNode getRoot()
     {
         return root;
+    }
+
+    //report
+
+    public double getTotalInventoryValue()
+    {
+        return calculateTotalValue(root);
+    }
+    private double calculateTotalValue(ProductNode node)
+    {
+        if(node==null)
+            return 0;
+        double currentValue=node.product.getProductPrice()*node.product.getProductQuantity();
+        return currentValue+calculateTotalValue(node.left)+calculateTotalValue(node.right);
+    }
+
+    public List<ProductInformation> getAllProducts()
+    {
+        List<ProductInformation> products=new ArrayList<>();
+        inOrderTraversal(root,products);
+        return products;
+    }
+    private void inOrderTraversal(ProductNode node,List<ProductInformation> products)
+    {
+        if(node==null)
+            return;
+        inOrderTraversal(node.left,products);
+        products.add(node.product);
+        inOrderTraversal(node.right,products);
+    }
+
+    public List<ProductInformation> getLowStockProducts(int threshold)
+    {
+        List<ProductInformation> lowStock=new ArrayList<>();
+        findLowStock(root,threshold,lowStock);
+        return lowStock;
+    }
+    private void findLowStock(ProductNode node,int threshold,List<ProductInformation> lowStock)
+    {
+        if (node==null)
+            return;
+        findLowStock(node.left,threshold,lowStock);
+        if (node.product.getProductQuantity()<threshold)
+        {
+            lowStock.add(node.product);
+        }
+        findLowStock(node.right,threshold,lowStock);
     }
 
 }
