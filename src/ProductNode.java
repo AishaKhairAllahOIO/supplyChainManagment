@@ -1,4 +1,5 @@
-public class ProductNode {
+public class ProductNode
+{
     ProductInformation product;
     ProductNode left;
     ProductNode right;
@@ -6,9 +7,9 @@ public class ProductNode {
 
     public ProductNode(ProductInformation product)
     {
-        this.product = product;
-        this.left = null;
-        this.right = null;
-        this.height = 1;
+        this.product=product;
+        this.left=null;
+        this.right=null;
+        this.height=1;
     }
 }
