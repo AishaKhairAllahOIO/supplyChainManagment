@@ -227,4 +227,9 @@ public class ProductWarehouse
         }
         return current;
     }
+    public ProductNode getRoot()
+    {
+        return root;
+    }
+
 }

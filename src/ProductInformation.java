@@ -43,4 +43,14 @@ public class ProductInformation
         if(productQuantity<0||productQuantity>1000)throw new IllegalArgumentException("Quantity must be between 0 and 1000.");
         this.productQuantity=productQuantity;
     }
+
+    @Override
+    public String toString() {
+        return "ProductInformation{" +
+                "productId=" + productId +
+                ", productName='" + productName + '\'' +
+                ", productPrice=" + productPrice +
+                ", productQuantity=" + productQuantity +
+                '}';
+    }
 }
