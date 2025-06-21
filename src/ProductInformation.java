@@ -7,9 +7,8 @@ public class ProductInformation
 
     public ProductInformation(int productId,String productName,double productPrice,int productQuantity)
     {
-        if (productPrice<0) throw new IllegalArgumentException("Price cannot be negative.");
-        if (productQuantity<0||productQuantity>1000)
-            throw new IllegalArgumentException("Quantity must be between 0 and 1000.");
+        if (productPrice<0)throw new IllegalArgumentException("Price cannot be negative.");
+        if (productQuantity<0||productQuantity>1000)throw new IllegalArgumentException("Quantity must be between 0 and 1000.");
 
         this.productId=productId;
         this.productName=productName;
@@ -36,19 +35,22 @@ public class ProductInformation
 
     public void setProductPrice(double productPrice)
     {
-        if (productPrice<0) throw new IllegalArgumentException("Price cannot be negative.");
+        if(productPrice<0)throw new IllegalArgumentException("Price cannot be negative.");
         this.productPrice=productPrice;
     }
     public void setProductQuantity(int productQuantity)
     {
-        if(productQuantity<0||productQuantity>1000)
-            throw new IllegalArgumentException("Quantity must be between 0 and 1000.");
+        if(productQuantity<0||productQuantity>1000)throw new IllegalArgumentException("Quantity must be between 0 and 1000.");
         this.productQuantity=productQuantity;
     }
 
     @Override
-    public String toString()
-    {
-        return "[ID: " + productId + "] " + productName + " | Price: " + productPrice + " | Quantity: " + productQuantity;
+    public String toString() {
+        return "ProductInformation{" +
+                "productId=" + productId +
+                ", productName='" + productName + '\'' +
+                ", productPrice=" + productPrice +
+                ", productQuantity=" + productQuantity +
+                '}';
     }
 }
